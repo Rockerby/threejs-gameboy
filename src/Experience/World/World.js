@@ -1,6 +1,6 @@
 import Experience from '../Experience.js'
 import Environment from './Environment.js'
-import GameBoyEmulator from './GameBoyEmulator.js'
+import GameBoy from './GameBoy.js'
 
 export default class World
 {
@@ -15,7 +15,7 @@ export default class World
         {
             // Setup
             this.environment = new Environment()
-            this.gameboy = new GameBoyEmulator();
+            this.gameboy = new GameBoy();
 
         })
     }
