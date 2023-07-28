@@ -286,7 +286,7 @@ export default class GameBoyEmulator {
     //-------- ----------
     // GEOMETRY, MATERIAL, MESH
     //-------- ----------
-    const geo = new THREE.PlaneGeometry(2, 2);
+    const geo = new THREE.PlaneGeometry(1.85, 1.68);
     const material = new THREE.MeshBasicMaterial({ map: texture });
     this.mesh = new THREE.Mesh(geo, material);
     this.scene.add(this.mesh);

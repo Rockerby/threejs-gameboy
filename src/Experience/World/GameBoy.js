@@ -66,7 +66,7 @@ export default class GameBoy
             }
         })
 
-        this.gameBoyEmulator.mesh.position.set(0,-0.777,0.698)
+        this.gameBoyEmulator.mesh.position.set(0.015,-0.777,0.702);//0.698)
     }
 
     // setAnimation()
