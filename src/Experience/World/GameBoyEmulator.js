@@ -1,9 +1,12 @@
 import * as THREE from "three";
 import Experience from "../Experience.js";
+import EventEmitter from "../Utils/EventEmitter.js";
 import Gameboy from "../../PollenBoy/main.js";
 
-export default class GameBoyEmulator {
+export default class GameBoyEmulator extends EventEmitter {
   constructor() {
+    super();
+
     this.experience = new Experience();
     this.sizes = this.experience.sizes;
     this.scene = this.experience.scene;
@@ -261,6 +264,7 @@ export default class GameBoyEmulator {
         gb.InsertRom(rom); // This may throw an error
         Start();
         console.log("Started!");
+
         //}
         //catch (e) {
         //	SetStatMsg (e, longStatFadeMs);
@@ -270,14 +274,18 @@ export default class GameBoyEmulator {
       fr.readAsArrayBuffer(file);
     }
 
-    nanaFin.onchange = function (e) {
+    nanaFin.onchange = (e) => {
       var file = e.target.files[0];
       console.log("uploaded!");
       if (!file) return;
 
       lastreadFilename = file.name.split(".")[0]; // Remove file extension
+      
+      this.trigger('cartLoad');
 
-      ReadRomFile(file);
+      setTimeout(() => {
+        ReadRomFile(file);
+      }, 5000);
     };
 
     const texture = new THREE.CanvasTexture(nanaCanvas);

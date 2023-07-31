@@ -15,11 +15,10 @@ export default class Environment
         {
             this.debugFolder = this.debug.ui.addFolder('environment')
         }
-
         this.setSunLight()
         this.setEnvironmentMap()
     }
-
+    
     setSunLight()
     {
         this.sunLight = new THREE.DirectionalLight('#ffffff', 4)
@@ -27,7 +26,8 @@ export default class Environment
         this.sunLight.shadow.camera.far = 15
         this.sunLight.shadow.mapSize.set(1024, 1024)
         this.sunLight.shadow.normalBias = 0.05
-        this.sunLight.position.set(5, 3.279, 3.771)
+        this.sunLight.position.set(-0.394, 3.279, 1.0344)
+        this.sunLight.intensity = 4.961
         this.scene.add(this.sunLight)
 
         // Debug
@@ -43,22 +43,22 @@ export default class Environment
             this.debugFolder
                 .add(this.sunLight.position, 'x')
                 .name('sunLightX')
-                .min(- 5)
-                .max(5)
+                .min(- 50)
+                .max(50)
                 .step(0.001)
             
             this.debugFolder
                 .add(this.sunLight.position, 'y')
                 .name('sunLightY')
-                .min(- 5)
-                .max(5)
+                .min(- 50)
+                .max(50)
                 .step(0.001)
             
             this.debugFolder
                 .add(this.sunLight.position, 'z')
                 .name('sunLightZ')
-                .min(- 5)
-                .max(5)
+                .min(- 50)
+                .max(50)
                 .step(0.001)
         }
     }
@@ -66,12 +66,12 @@ export default class Environment
     setEnvironmentMap()
     {
         this.environmentMap = {}
-        this.environmentMap.intensity = 0.4
+        this.environmentMap.intensity = 4
         this.environmentMap.texture = this.resources.items.environmentMapTexture
         this.environmentMap.texture.colorSpace = THREE.SRGBColorSpace
         
         this.scene.environment = this.environmentMap.texture
-
+        
         this.environmentMap.updateMaterials = () =>
         {
             this.scene.traverse((child) =>
@@ -85,6 +85,8 @@ export default class Environment
             })
         }
         this.environmentMap.updateMaterials()
+        
+        //this.scene.background = this.environmentMap.texture
 
         // Debug
         if(this.debug.active)
@@ -93,7 +95,7 @@ export default class Environment
                 .add(this.environmentMap, 'intensity')
                 .name('envMapIntensity')
                 .min(0)
-                .max(4)
+                .max(40)
                 .step(0.001)
                 .onChange(this.environmentMap.updateMaterials)
         }

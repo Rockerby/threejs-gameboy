@@ -11,10 +11,13 @@ export default class GameBoy
         this.resources = this.experience.resources
         this.time = this.experience.time
         this.debug = this.experience.debug
+        this.world = this.experience.world
 
         // Resource
         this.resource = this.resources.items.gameboyModel
 
+
+        this.raycaster = this.experience.world.raycaster;
 
         this.gameBoyEmulator = new GameBoyEmulator();
 
@@ -42,20 +45,22 @@ export default class GameBoy
                         .step(0.001)
         }
 
-
-
-
-
         this.setModel()
+        this.setAnimation();
+        this.setCartClick();
 
 
+        this.gameBoyEmulator.on('cartLoad', ()=>{
+            this.animation.playLoading();
+        });
     }
 
     setModel()
     {
         this.model = this.resource.scene
         this.model.scale.set(40, 40, 40)
-        this.model.position.set(0, -5, 0)
+
+        this.model.position.set(0, -4, 0)
         this.scene.add(this.model)
 
         this.model.traverse((child) =>
@@ -64,59 +69,121 @@ export default class GameBoy
             {
                 child.castShadow = true
             }
+            if(child.name == "Cartridge"){
+
+                this.cartridge = child;
+            }
         })
 
-        this.gameBoyEmulator.mesh.position.set(0.015,-0.777,0.702);//0.698)
+        this.gameBoyEmulator.mesh.position.set(
+            this.model.position.x + 0.015,
+            this.model.position.y + 4.223,
+            this.model.position.z + 0.702);//0.698)
     }
 
-    // setAnimation()
-    // {
-    //     this.animation = {}
+    setAnimation()
+    {
+        this.animation = {}
         
-    //     // Mixer
-    //     this.animation.mixer = new THREE.AnimationMixer(this.model)
+        // Mixer
+        this.animation.mixer = new THREE.AnimationMixer(this.model)
         
-    //     // Actions
-    //     this.animation.actions = {}
+        // Actions
+        this.animation.actions = {}
+        console.log(this.resource.animations);
+        this.animation.actions.loading = this.animation.mixer.clipAction(this.resource.animations[0])
+        this.animation.actions.loading.setLoop(THREE.LoopOnce);
+        this.animation.actions.loading.clampWhenFinished = true;
+
+        this.animation.actions.cartloading = this.animation.mixer.clipAction(this.resource.animations[1])
+        this.animation.actions.cartloading.setLoop(THREE.LoopOnce);
+        this.animation.actions.cartloading.clampWhenFinished = true;
+
+        // this.animation.actions.walking = this.animation.mixer.clipAction(this.resource.animations[1])
+        // this.animation.actions.running = this.animation.mixer.clipAction(this.resource.animations[2])
         
-    //     this.animation.actions.idle = this.animation.mixer.clipAction(this.resource.animations[0])
-    //     this.animation.actions.walking = this.animation.mixer.clipAction(this.resource.animations[1])
-    //     this.animation.actions.running = this.animation.mixer.clipAction(this.resource.animations[2])
-        
-    //     this.animation.actions.current = this.animation.actions.idle
-    //     this.animation.actions.current.play()
+        // this.animation.actions.current = this.animation.actions.loading
+        // this.animation.actions.current.play()
+        // this.animation.actions.current = this.animation.actions.cartloading
+        // this.animation.actions.current.play()
 
-    //     // Play the action
-    //     this.animation.play = (name) =>
-    //     {
-    //         const newAction = this.animation.actions[name]
-    //         const oldAction = this.animation.actions.current
+        // Play the action
+        this.animation.play = (name) =>
+        {
+            const newAction = this.animation.actions[name]
+            const oldAction = this.animation.actions.current
 
-    //         newAction.reset()
-    //         newAction.play()
-    //         newAction.crossFadeFrom(oldAction, 1)
+            newAction.reset()
+            newAction.play()
+            newAction.crossFadeFrom(oldAction, 1)
 
-    //         this.animation.actions.current = newAction
-    //     }
+            this.animation.actions.current = newAction
+        }
+        this.animation.playLoading = () =>
+        {
+            const oldAction = this.animation.actions.current
 
-    //     // Debug
-    //     if(this.debug.active)
-    //     {
-    //         const debugObject = {
-    //             playIdle: () => { this.animation.play('idle') },
-    //             playWalking: () => { this.animation.play('walking') },
-    //             playRunning: () => { this.animation.play('running') }
-    //         }
-    //         this.debugFolder.add(debugObject, 'playIdle')
-    //         this.debugFolder.add(debugObject, 'playWalking')
-    //         this.debugFolder.add(debugObject, 'playRunning')
-    //     }
-    // }
+            this.animation.actions.cartloading.reset()
+            this.animation.actions.loading.reset()
+            this.animation.actions.cartloading.play()
+            this.animation.actions.loading.play()
+            if(oldAction){
+                this.animation.actions.cartloading.crossFadeFrom(oldAction, 1)
+                this.animation.actions.loading.crossFadeFrom(oldAction, 1)
+            }
+            this.animation.actions.current = this.animation.actions.loading
+        }
 
+        // Debug
+        if(this.debug.active)
+        {
+            const debugObject = {
+                playLoading: () => { this.animation.playLoading() },
+            }
+            this.debugFolder.add(debugObject, 'playLoading')
+        }
+    }
+    setCartClick(){
+        this.deboucer = -1;
+        window.addEventListener('click', () =>
+        {
+            if(this.currentIntersect)
+            {
+                switch(this.currentIntersect)
+                {
+                    case this.cartridge:
+                        console.log('click on object 1')
+                        document.getElementById('nanafin').click();
+
+
+                        break
+                }
+            }
+        })
+    }
     update()
     {
-        // this.animation.mixer.update(this.time.delta * 0.001)
+        this.animation.mixer.update(this.time.delta * 0.001)
         if(this.gameBoyEmulator)
             this.gameBoyEmulator.update();
+
+
+        if(this.raycaster) {
+
+            const intersects = this.raycaster.intersectObjects([this.model, this.cartridge])
+            if(intersects.length)
+            {
+                if(intersects[0].object.name == "Cartridge")
+                    this.currentIntersect = this.cartridge;
+                    else{
+                        this.currentIntersect = null;
+                    }
+            } else{
+                this.currentIntersect = null;
+            }
+
+        }
+
+    
     }
 }
