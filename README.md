@@ -1,6 +1,6 @@
 # Gameboy Emulator
 
-A gameboy emulator running in a 3D environment, built using ThreeJS.
+A gameboy emulator running in a 3D environment, built using ThreeJS. Available online at [https://threejs-gameboy.vercel.app/](https://threejs-gameboy.vercel.app/).
 
 ## Credits
 
