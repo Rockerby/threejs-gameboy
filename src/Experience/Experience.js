@@ -60,7 +60,6 @@ export default class Experience
 
         document.getElementById('btnclose').addEventListener('click', ()=>{
             MicroModal.close('modal-1');
-
         });
 
         inject();
