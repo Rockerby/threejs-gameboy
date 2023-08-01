@@ -119,7 +119,7 @@ export default class GameBoyEmulator extends EventEmitter {
     gb.bootromEnabled = false;
     gb.SetPallete(palletes[defaultPallete]);
 
-    const defaultVolume = 0.05;
+    const defaultVolume = 0.35;
     gb.SetVolume(defaultVolume);
     gb.EnableSound();
 

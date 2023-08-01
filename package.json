@@ -11,6 +11,8 @@
     "vite": "^4.3.9"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.0.1",
+    "gsap": "^3.5.1",
     "lil-gui": "^0.18.1",
     "micromodal": "^0.4.10",
     "three": "^0.153.0"

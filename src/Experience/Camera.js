@@ -37,6 +37,12 @@ export default class Camera
                         .min(- 50)
                         .max(50)
                         .step(0.001)
+                        this.debugFolder
+                            .add(this.instance, 'zoom')
+                            .name('camZoom')
+                            .min(- 50)
+                            .max(50)
+                            .step(0.001)
         }
     }
 
@@ -51,6 +57,8 @@ export default class Camera
     {
         this.controls = new OrbitControls(this.instance, this.canvas)
         this.controls.enableDamping = true
+        this.controls.minDistance = 5;
+this.controls.maxDistance = 20;
     }
 
     resize()
@@ -62,5 +70,12 @@ export default class Camera
     update()
     {
         this.controls.update()
+
+        window.addEventListener('click', ()=>{
+            console.log(this.instance.zoom);
+        });
+
     }
+
+
 }

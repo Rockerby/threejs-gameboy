@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import gsap from 'gsap'
 
 import Experience from '../Experience.js'
 import GameBoyEmulator from './GameBoyEmulator.js'
@@ -7,12 +8,20 @@ export default class GameBoy
 {
     constructor()
     {
+        this.ready = false;
+        this.first = true;
+
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.resources = this.experience.resources
+        setTimeout(()=>{
+            this.ready = true;
+        }, 2000);
+
         this.time = this.experience.time
         this.debug = this.experience.debug
         this.world = this.experience.world
+        this.camera = this.experience.camera.instance
 
         // Resource
         this.resource = this.resources.items.gameboyModel
@@ -21,6 +30,7 @@ export default class GameBoy
         this.raycaster = this.experience.world.raycaster;
 
         this.gameBoyEmulator = new GameBoyEmulator();
+
 
         // Debug
         if(this.debug.active)
@@ -53,6 +63,8 @@ export default class GameBoy
 
         this.gameBoyEmulator.on('cartLoad', ()=>{
             this.animation.playLoading();
+            this.animateCameraToFront();
+
         });
     }
 
@@ -148,15 +160,14 @@ export default class GameBoy
         this.deboucer = -1;
         window.addEventListener('click', () =>
         {
-            if(this.currentIntersect)
+            console.log(this.ready)
+            if(this.ready && this.currentIntersect)
             {
                 switch(this.currentIntersect)
                 {
                     case this.cartridge:
-                        console.log('click on object 1')
+                        this.animateCameraToCartridge()
                         document.getElementById('nanafin').click();
-
-
                         break
                 }
             }
@@ -186,5 +197,18 @@ export default class GameBoy
         }
 
     
+    }
+
+    animateCameraToCartridge() {
+        gsap.to(this.camera.position, { duration: 1, delay:0.1, x: -6.30251873213316, y: 8.277048048139596, z: -10.308636625459547});
+
+        //Y 4.523
+        //Z -11.456
+    }
+    animateCameraToFront() {
+        gsap.to(this.camera.position, { duration: 4, delay:1, x: 3.252385936583984, y: 3.289125802197703, z: 13.89614228623224});
+
+        //Y 4.523
+        //Z -11.456
     }
 }

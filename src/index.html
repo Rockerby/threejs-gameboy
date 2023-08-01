@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameBoy - Richard Ockerby</title>
+    <title>GameBoy Emulator</title>
     <link rel="stylesheet" href="./style.css">
     <script src='PollenBoy/cpu.js'></script>
     <script src='PollenBoy/ops.js'></script>
@@ -98,6 +98,18 @@
 
     </div>
 
+    <div class="controls-window">
+
+        <button class="close" onclick="this.parentNode.style.display='none'">x</button>
+        <h3>Controls:</h3>
+        <p>
+            Click the cartridge to load your ROM.<br/><br/>
+            <strong>D-Pad</strong>: Arrow Keys<br/>
+            <strong>B</strong>: X<br/>
+            <strong>A</strong>: Z<br/>
+            <strong>Start</strong>: Enter<br/>
+            <strong>Select</strong>: Right Shift</p>
+    </div>
 
     <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
         <div class="modal__overlay" tabindex="-1" data-micromodal-close>

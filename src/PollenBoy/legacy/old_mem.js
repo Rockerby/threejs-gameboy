@@ -4,7 +4,7 @@
         for (var i = 0x134; i < 0x13f; i ++) {
             this.romname += String.fromCharCode (rom [i]);
         }
-        document.title = 'Pollen Boy: ' + this.romname;
+        //document.title = 'Pollen Boy: ' + this.romname;
 
         // GBC only mode //
         if (rom [0x143] === 0xc0)

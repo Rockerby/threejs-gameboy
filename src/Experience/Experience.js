@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import MicroModal from 'micromodal';
+import { inject } from '@vercel/analytics';
 
 import Debug from './Utils/Debug.js'
 import Sizes from './Utils/Sizes.js'
@@ -61,6 +62,8 @@ export default class Experience
             MicroModal.close('modal-1');
 
         });
+
+        inject();
     }
 
     resize()
