@@ -131,13 +131,13 @@ export default class GameBoyEmulator extends EventEmitter {
     // Images
     const images = {};
     images.play = new Image();
-    images.play.src = "img/button_play.png";
+    //images.play.src = "img/button_play.png";
 
     images.pause = new Image();
-    images.pause.src = "img/button_pause.png";
+    //images.pause.src = "img/button_pause.png";
 
     images.reset = new Image();
-    images.reset.src = "img/button_reset.png";
+    //images.reset.src = "img/button_reset.png";
 
     // Status text
     var statTimeout = null;

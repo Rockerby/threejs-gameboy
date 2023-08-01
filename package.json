@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "lil-gui": "^0.18.1",
+    "micromodal": "^0.4.10",
     "three": "^0.153.0"
   }
 }

@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import MicroModal from 'micromodal';
 
 import Debug from './Utils/Debug.js'
 import Sizes from './Utils/Sizes.js'
@@ -50,6 +51,16 @@ export default class Experience
         {
             this.update()
         })
+
+        MicroModal.init();
+        MicroModal.show('modal-1');
+
+
+
+        document.getElementById('btnclose').addEventListener('click', ()=>{
+            MicroModal.close('modal-1');
+
+        });
     }
 
     resize()
