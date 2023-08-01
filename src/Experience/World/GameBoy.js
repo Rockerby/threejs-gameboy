@@ -103,7 +103,7 @@ export default class GameBoy
         
         // Actions
         this.animation.actions = {}
-        console.log(this.resource.animations);
+        // console.log(this.resource.animations);
         this.animation.actions.loading = this.animation.mixer.clipAction(this.resource.animations[0])
         this.animation.actions.loading.setLoop(THREE.LoopOnce);
         this.animation.actions.loading.clampWhenFinished = true;
@@ -160,7 +160,6 @@ export default class GameBoy
         this.deboucer = -1;
         window.addEventListener('click', () =>
         {
-            console.log(this.ready)
             if(this.ready && this.currentIntersect)
             {
                 switch(this.currentIntersect)
