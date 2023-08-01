@@ -58,7 +58,7 @@ export default class Camera
         this.controls = new OrbitControls(this.instance, this.canvas)
         this.controls.enableDamping = true
         this.controls.minDistance = 5;
-this.controls.maxDistance = 20;
+        this.controls.maxDistance = 20;
     }
 
     resize()
@@ -70,11 +70,6 @@ this.controls.maxDistance = 20;
     update()
     {
         this.controls.update()
-
-        window.addEventListener('click', ()=>{
-            console.log(this.instance.zoom);
-        });
-
     }
 
 
