@@ -237,3 +237,20 @@ body
     font-size:14px;
     margin:15px 0 0 0; 
   }
+
+  .notice {
+    color:red;
+    font-weight: bold;
+  }
+  @media screen and (min-width: 900px){
+    .mobile-only {display:none;}
+  }
+
+  .footer-link {
+    position: absolute;
+    bottom:30px;
+    right:30px;
+  }
+  .footer-link img {
+    max-width:40px;
+  }

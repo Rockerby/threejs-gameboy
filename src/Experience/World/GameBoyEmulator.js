@@ -20,6 +20,8 @@ export default class GameBoyEmulator extends EventEmitter {
       ctx = nanaCanvas.getContext("2d"); //document.getElementById("nanacanvas");
     nanaCanvas.width = 160;
     nanaCanvas.height = 144;
+    ctx.fillStyle = "#302f16";
+    ctx.fillRect(0, 0, nanaCanvas.width, nanaCanvas.height);
 
     const nanawrap = document.getElementById("nanawrap");
     const nanaStat = document.getElementById("nanastat");
