@@ -60,8 +60,12 @@ export default class GameBoy
         this.setAnimation();
         this.setCartClick();
 
-
         this.gameBoyEmulator.on('cartLoad', ()=>{
+            if(this.powerLight){
+                setTimeout(()=>{
+                    this.powerLight.material.color = new THREE.Color("rgb(255, 0, 0)");
+                }, 5000);
+            }
             this.animation.playLoading();
             this.animateCameraToFront();
 
@@ -85,6 +89,8 @@ export default class GameBoy
             if(child.name == "Cartridge"){
 
                 this.cartridge = child;
+            }else if(child.name == "PowerLight") {
+                this.powerLight = child;
             }
         })
 
@@ -186,9 +192,9 @@ export default class GameBoy
             {
                 if(intersects[0].object.name == "Cartridge")
                     this.currentIntersect = this.cartridge;
-                    else{
-                        this.currentIntersect = null;
-                    }
+                else{
+                    this.currentIntersect = null;
+                }
             } else{
                 this.currentIntersect = null;
             }
